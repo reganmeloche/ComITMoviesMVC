@@ -20,14 +20,30 @@ namespace MoviesMVC.Controllers
 
         public IActionResult Index()
         {
+            // foreach (var movie in _movieList) {
+            //     Console.WriteLine(movie.Title);
+            //     Console.WriteLine(movie.Director);
+            //     Console.WriteLine(movie.Year);
+            // }
+
+            return View(_movieList);
+        }
+
+        public IActionResult Create() {
             return View();
         }
 
-        public IActionResult Create()
+        [HttpPost]
+        public IActionResult Create(Movie myNewMovie)
         {
-            return View();
+            myNewMovie.Id = Guid.NewGuid();
+            _movieList.Add(myNewMovie);
+            return RedirectToAction("Index");
         }
 
+        public IActionResult Details(Guid id) {
+            
+        }
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

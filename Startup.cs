@@ -35,6 +35,13 @@ namespace MoviesMVC
             movie1.Year = 1993;
             movieList.Add(movie1);
 
+            var movie2 = new Movie();
+            movie2.Id = Guid.NewGuid();
+            movie2.Title = "True Grit";
+            movie2.Director = "Ethan Coen";
+            movie2.Year = 2010;
+            movieList.Add(movie2);
+
             services.AddSingleton(movieList);
         }
 

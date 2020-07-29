@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Movie>
+@{
     ViewData["Title"] = "All Movies";
 }
 
@@ -6,12 +7,22 @@
     <h3>@ViewData["Title"]</h3>
     <div id="movie-table-holder">
         <table id="movie-table" class="table-striped table table-bordered">
-            <tr >
+            <tr>
                 <th>Title</th>
                 <th>Director</th>
                 <th>Year</th>
-                <th>Delete</th>
+                <th> </th>
             </tr>
+        
+        @foreach (var movie in Model) { 
+            <tr>
+                <td>@movie.Title</td>
+                <td>@movie.Director</td>
+                <td>@movie.Year</td>
+                <td><a asp-action="Details" asp-route-id="@movie.Id" >Details</a></td>
+            </tr>
+        }
+
         </table>
     </div>
 </div>
