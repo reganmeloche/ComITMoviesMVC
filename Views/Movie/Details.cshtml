@@ -1,0 +1,14 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = "Movie Details";
+}
+
+<div>
+    <h3>@ViewData["Title"]</h3>
+
+    <div>Title: @Model.Title</div>
+    <br/>
+    <div>Director: @Model.Director</div>
+    <br/>
+    <div>Year: @Model.Year</div>
+</div>

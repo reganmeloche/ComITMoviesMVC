@@ -41,8 +41,14 @@ namespace MoviesMVC.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Details(Guid id) {
-            
+       public IActionResult Details(Guid id) {
+            foreach (var movie in _movieList) { 
+                if (id == movie.Id)
+                {
+                    return View(movie);
+                }
+            }
+            return RedirectToAction("Error");
         }
 
 
