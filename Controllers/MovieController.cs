@@ -28,6 +28,7 @@ namespace MoviesMVC.Controllers
         public IActionResult Create(Movie myNewMovie)
         {
             myNewMovie.Id = Guid.NewGuid();
+            myNewMovie.Ratings = new List<Rating>();
             _movieList.Add(myNewMovie);
             return RedirectToAction("Index");
         }
