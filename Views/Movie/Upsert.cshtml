@@ -1,13 +1,22 @@
 ﻿@model Movie
 @{
+    string actionString = "Create";
+    string buttonText = "Add Movie";
     ViewData["Title"] = "Create Movie";
+
+    if (ViewBag.Editing) {
+        ViewData["Title"] = "Edit Movie";
+        actionString = "Edit";
+        buttonText = "Update Movie";
+    }
 }
 
 <div>
     <h3>@ViewData["Title"]</h3>
-
+    <hr/>
     <div id="movie-form-holder" class="well">
-        <form id="movie-form" asp-action="Create"> 
+        <form id="movie-form" asp-action="@actionString"> 
+            <input type="hidden" asp-for="Id"/>
             <div class="form-group">
                 <label asp-for="Title">Title:</label>
                 <input type="text" asp-for="Title" class="form-control">
@@ -22,8 +31,10 @@
                 <label asp-for="Year">Year:</label>
                 <input type="number" asp-for="Year" class="form-control">
             </div>
-            <button type="submit" id="form-submit" class="btn btn-success">Add Movie</button>
+            <button type="submit" id="form-submit" class="btn btn-success">@buttonText</button>
         </form>
     </div>
+    <br/>
+    <a asp-action="Index">Back to Movies</a>
 
 </div>

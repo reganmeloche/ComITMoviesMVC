@@ -5,12 +5,14 @@
 
 <div>
     <h3>@ViewData["Title"]</h3>
+    <hr/>
     <div id="movie-table-holder">
         <table id="movie-table" class="table-striped table table-bordered">
             <tr>
                 <th>Title</th>
                 <th>Director</th>
                 <th>Year</th>
+                <th>Rating</th>
                 <th> </th>
             </tr>
         
@@ -19,6 +21,7 @@
                 <td>@movie.Title</td>
                 <td>@movie.Director</td>
                 <td>@movie.Year</td>
+                <td>@movie.AverageRating</td>
                 <td><a asp-action="Details" asp-route-id="@movie.Id" >Details</a></td>
             </tr>
         }

@@ -18,44 +18,74 @@ namespace MoviesMVC.Controllers
             _movieList = movieList;
         }
 
-        public IActionResult Index()
-        {
-            // foreach (var movie in _movieList) {
-            //     Console.WriteLine(movie.Title);
-            //     Console.WriteLine(movie.Director);
-            //     Console.WriteLine(movie.Year);
-            // }
-
-            return View(_movieList);
-        }
-
+        /*** CREATE ***/
         public IActionResult Create() {
-            return View();
+            ViewBag.Editing = false;
+            return View("Upsert");
         }
 
         [HttpPost]
         public IActionResult Create(Movie myNewMovie)
         {
             myNewMovie.Id = Guid.NewGuid();
+            myNewMovie.Ratings = new List<Rating>();
             _movieList.Add(myNewMovie);
             return RedirectToAction("Index");
         }
 
-       public IActionResult Details(Guid id) {
-            foreach (var movie in _movieList) { 
-                if (id == movie.Id)
-                {
-                    return View(movie);
-                }
-            }
-            return RedirectToAction("Error");
+
+        /*** READ ***/
+        public IActionResult Index()
+        {
+            return View(_movieList);
         }
+
+        public IActionResult Details(Guid id) {
+           var movie = GetById(id);
+           return View(movie);
+        }
+
+        /*** UPDATE ***/
+        public IActionResult Edit(Guid id) {
+            ViewBag.Editing = true;
+            var movie = GetById(id);
+            return View("Upsert", movie);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(Guid id, Movie updatedMovie) {
+            var movie = GetById(id);
+            movie.Title = updatedMovie.Title;
+            movie.Director = updatedMovie.Director;
+            movie.Year = updatedMovie.Year;
+            return RedirectToAction("Index");
+        }
+
+
+        /*** DELETE ***/
+        [HttpPost]
+        public IActionResult Delete(Guid id) {
+            var movie = GetById(id);
+            _movieList.Remove(movie);
+            return RedirectToAction("Index");
+        }
+
 
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        private Movie GetById(Guid id) {
+            foreach (var movie in _movieList) { 
+                if (id == movie.Id)
+                {
+                    return movie;
+                }
+            }
+            throw new Exception("Movie not found");
         }
     }
 }

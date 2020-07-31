@@ -5,10 +5,30 @@
 
 <div>
     <h3>@ViewData["Title"]</h3>
+    <hr/>
+    <dl class="row">
+        <dt class="col-sm-3">Title</dt>
+        <dd class="col-sm-9">@Model.Title</dd>
 
-    <div>Title: @Model.Title</div>
+        <dt class="col-sm-3">Director</dt>
+        <dd class="col-sm-9">@Model.Director</dd>
+
+        <dt class="col-sm-3">Year</dt>
+        <dd class="col-sm-9">@Model.Year</dd>
+
+        <dt class="col-sm-3">Average Rating</dt>
+        <dd class="col-sm-9">@Model.AverageRating</dd>
+    </dl>
+
+    <div>
+        <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>
+        <form asp-action="Delete" style="display:inline">
+            <input type="hidden" asp-for="Id" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+        <a class="btn btn-success" asp-controller="Rating" asp-action="CreateForMovie" asp-route-movieId="@Model.Id">Rate</a>
+    </div>
     <br/>
-    <div>Director: @Model.Director</div>
-    <br/>
-    <div>Year: @Model.Year</div>
+    <a asp-action="Index">Back to Movies</a>
 </div>
+

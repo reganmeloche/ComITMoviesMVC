@@ -33,6 +33,7 @@ namespace MoviesMVC
             movie1.Title = "Jurassic Park";
             movie1.Director = "Steven Spielberg";
             movie1.Year = 1993;
+            movie1.Ratings = new List<Rating>();
             movieList.Add(movie1);
 
             var movie2 = new Movie();
@@ -40,6 +41,7 @@ namespace MoviesMVC
             movie2.Title = "True Grit";
             movie2.Director = "Ethan Coen";
             movie2.Year = 2010;
+            movie2.Ratings = new List<Rating>();
             movieList.Add(movie2);
 
             services.AddSingleton(movieList);
