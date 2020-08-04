@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
 
 using MoviesMVC.Models;
 using MoviesMVC.DAL;
@@ -28,6 +29,7 @@ namespace MoviesMVC
         {
             services.AddControllersWithViews();
             
+            // List DB setup
             var movieList = new List<Movie>();
             var movie1 = new Movie();
             movie1.Id = Guid.NewGuid();
@@ -45,9 +47,18 @@ namespace MoviesMVC
             movie2.Ratings = new List<Rating>();
             movieList.Add(movie2);
 
-            var movieStore = new ListMovieStorage(movieList);
+            var movieStoreList = new ListMovieStorage(movieList);
 
-            services.AddSingleton<IStoreMovies>(movieStore);
+            // PG Setup
+            string connectionString = Configuration["PGConnString"];
+            var conn = new NpgsqlConnection(connectionString);
+            conn.Open();
+            var movieStorePg = new PgSqlMovieStorage(conn);
+
+            // MSSQL Setup
+
+
+            services.AddSingleton<IStoreMovies>(movieStorePg);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
