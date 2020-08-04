@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using MoviesMVC.Models;
+using MoviesMVC.DAL;
 
 namespace MoviesMVC
 {
@@ -44,7 +45,9 @@ namespace MoviesMVC
             movie2.Ratings = new List<Rating>();
             movieList.Add(movie2);
 
-            services.AddSingleton(movieList);
+            var movieStore = new ListMovieStorage(movieList);
+
+            services.AddSingleton<IStoreMovies>(movieStore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -26,7 +26,7 @@
             <input type="hidden" asp-for="Id" />
             <button type="submit" class="btn btn-danger">Delete</button>
         </form>
-        <a class="btn btn-success" asp-controller="Rating" asp-action="CreateForMovie" asp-route-movieId="@Model.Id">Rate</a>
+        @* <a class="btn btn-success" asp-controller="Rating" asp-action="CreateForMovie" asp-route-movieId="@Model.Id">Rate</a> *@
     </div>
     <br/>
     <a asp-action="Index">Back to Movies</a>
