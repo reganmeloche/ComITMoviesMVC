@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Npgsql;
+using Microsoft.EntityFrameworkCore;
 
 using MoviesMVC.Models;
 using MoviesMVC.DAL;
@@ -50,17 +51,27 @@ namespace MoviesMVC
             var movieStoreList = new ListMovieStorage(movieList);
 
             // PG Setup
+            /*
             string connectionString = Configuration["PGConnString"];
             var conn = new NpgsqlConnection(connectionString);
             conn.Open();
             var movieStorePg = new PgSqlMovieStorage(conn);
+            */
 
             // MSSQL Setup
             string msConnString = Configuration["MSConnString"];
-            var movieStoreMs = new MsSqlMovieStorage(msConnString);
+            //var movieStoreMs = new MsSqlMovieStorage(msConnString);
+            
+
+            // EF Setup
+            services.AddDbContext<MovieContext>(options =>
+                options.UseSqlServer(msConnString));
+                
+            var movieStoreEf = new EFMovieStorage(msConnString);
 
 
-            services.AddSingleton<IStoreMovies>(movieStoreMs);
+            services.AddSingleton<IStoreMovies>(movieStoreEf);
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
