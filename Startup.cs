@@ -56,9 +56,11 @@ namespace MoviesMVC
             var movieStorePg = new PgSqlMovieStorage(conn);
 
             // MSSQL Setup
+            string msConnString = Configuration["MSConnString"];
+            var movieStoreMs = new MsSqlMovieStorage(msConnString);
 
 
-            services.AddSingleton<IStoreMovies>(movieStorePg);
+            services.AddSingleton<IStoreMovies>(movieStoreMs);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
