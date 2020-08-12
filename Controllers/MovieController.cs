@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MoviesMVC.Models;
+using MoviesMVC.DAL;
 
 namespace MoviesMVC.Controllers
 {
     public class MovieController : Controller
     {
-        List<Movie> _movieList;
+        IStoreMovies _movieStorage;
 
-        public MovieController(List<Movie> movieList)
+        public MovieController(IStoreMovies movieStorage)
         {
-            _movieList = movieList;
+            _movieStorage = movieStorage;
         }
 
         /*** CREATE ***/
@@ -27,9 +28,7 @@ namespace MoviesMVC.Controllers
         [HttpPost]
         public IActionResult Create(Movie myNewMovie)
         {
-            myNewMovie.Id = Guid.NewGuid();
-            myNewMovie.Ratings = new List<Rating>();
-            _movieList.Add(myNewMovie);
+            _movieStorage.CreateMovie(myNewMovie);
             return RedirectToAction("Index");
         }
 
@@ -37,27 +36,25 @@ namespace MoviesMVC.Controllers
         /*** READ ***/
         public IActionResult Index()
         {
-            return View(_movieList);
+            var allMovies = _movieStorage.GetAllMovies();
+            return View(allMovies);
         }
 
         public IActionResult Details(Guid id) {
-           var movie = GetById(id);
+           var movie = _movieStorage.GetMovieById(id);
            return View(movie);
         }
 
         /*** UPDATE ***/
         public IActionResult Edit(Guid id) {
             ViewBag.Editing = true;
-            var movie = GetById(id);
+            var movie = _movieStorage.GetMovieById(id);
             return View("Upsert", movie);
         }
 
         [HttpPost]
         public IActionResult Edit(Guid id, Movie updatedMovie) {
-            var movie = GetById(id);
-            movie.Title = updatedMovie.Title;
-            movie.Director = updatedMovie.Director;
-            movie.Year = updatedMovie.Year;
+            _movieStorage.UpdateMovie(id, updatedMovie);
             return RedirectToAction("Index");
         }
 
@@ -65,8 +62,7 @@ namespace MoviesMVC.Controllers
         /*** DELETE ***/
         [HttpPost]
         public IActionResult Delete(Guid id) {
-            var movie = GetById(id);
-            _movieList.Remove(movie);
+            _movieStorage.DeleteMovie(id);
             return RedirectToAction("Index");
         }
 
@@ -76,16 +72,6 @@ namespace MoviesMVC.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-
-        private Movie GetById(Guid id) {
-            foreach (var movie in _movieList) { 
-                if (id == movie.Id)
-                {
-                    return movie;
-                }
-            }
-            throw new Exception("Movie not found");
         }
     }
 }
