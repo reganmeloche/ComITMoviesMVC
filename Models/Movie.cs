@@ -25,5 +25,6 @@ namespace MoviesMVC.Models
         }
 
         public List<Rating> Ratings { get; set; }
+        public bool IsDeleted {get;set;}
     }
 }

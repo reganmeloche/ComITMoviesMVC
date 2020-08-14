@@ -30,30 +30,7 @@ namespace MoviesMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            
-            // var movieList = new List<Movie>();
-            // var movie1 = new Movie();
-            // movie1.Id = Guid.NewGuid();
-            // movie1.Title = "Jurassic Park";
-            // movie1.Director = "Steven Spielberg";
-            // movie1.Year = 1993;
-            // movie1.Ratings = new List<Rating>();
-            // movieList.Add(movie1);
-
-            // var movie2 = new Movie();
-            // movie2.Id = Guid.NewGuid();
-            // movie2.Title = "True Grit";
-            // movie2.Director = "Ethan Coen";
-            // movie2.Year = 2010;
-            // movie2.Ratings = new List<Rating>();
-            // movieList.Add(movie2);
-
-            //IStoreMovies listMovieStorage = new ListMovieStorage(movieList);
-            //services.AddSingleton(listMovieStorage);
-
-            string connectionString = "Host=drona.db.elephantsql.com;Port=5432;Database=wqicwjru;Username=wqicwjru;Password=xxxxx;";
-            services.AddDbContext<MovieContext>(options => options.UseNpgsql(connectionString));
-
+            services.AddDbContext<MovieContext>(options => options.UseNpgsql(Configuration.GetConnectionString("PGConnection")));
             services.AddScoped<IStoreMovies, EFMovieStorage>();
         }
 

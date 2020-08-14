@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace MoviesMVC.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    [Migration("20200812020730_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20200814001729_MovieDeletedFlag")]
+    partial class MovieDeletedFlag
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,6 +29,9 @@ namespace MoviesMVC.Migrations
 
                     b.Property<string>("Director")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Title")
                         .HasColumnType("text");

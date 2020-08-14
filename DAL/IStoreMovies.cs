@@ -15,6 +15,8 @@ namespace MoviesMVC.DAL
         Movie GetMovieById(Guid id);
 
         List<Movie> GetAllMovies();
+
+        void AddRating(Rating newRating);
     }
 
 }

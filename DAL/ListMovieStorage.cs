@@ -44,6 +44,10 @@ namespace MoviesMVC.DAL {
         public List<Movie> GetAllMovies() {
             return _movieList;
         }
+
+        public void AddRating(Rating newRating) {
+            // Do nothing
+        }
     }
 
 }
